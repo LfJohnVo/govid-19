@@ -23,9 +23,11 @@ func Menu() {
 	}
 	switch input {
 	case 1:
-		Estadisticas("stats")
+		Summary("summary")
 	case 2:
 
+	case 20:
+		Estadisticas("stats")
 	default:
 		os.Exit(2)
 	}
@@ -61,13 +63,24 @@ func connect(op string) []byte {
 	return bodyBytes
 } //connect func
 
+func Summary(opcion string) {
+	fmt.Println("1.- A summary of new and total cases per country updated daily:")
+	bodyBytes := connect(opcion)
+	var todoSum Sum
+	json.Unmarshal(bodyBytes, &todoSum)
+	x := todoSum
+	SumarioCountries(x)
+	SumarioGlobal(x)
+	SumarioDate(x)
+}
+
 func Estadisticas(opcion string) {
-	fmt.Println("1.- This route returns the usage of the API. This is not for any COVID related statistics:")
+	fmt.Println("20.- This route returns the usage of the API. This is not for any COVID related statistics:")
 	bodyBytes := connect(opcion)
 	var todoStats Stats
 	json.Unmarshal(bodyBytes, &todoStats)
 
 	x := todoStats
-	Desglose(x)
+	DesgloseStats(x)
 
 } //Estadisticas func

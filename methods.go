@@ -5,11 +5,10 @@ import (
 	"github.com/olekukonko/tablewriter"
 	"os"
 	"reflect"
-	"strconv"
 )
 
 //iterate a json with struct
-func Desglose(x Stats) {
+func DesgloseStats(x Stats) {
 	v := reflect.ValueOf(x)
 	typeOfS := v.Type()
 
@@ -21,25 +20,96 @@ func Desglose(x Stats) {
 	for i := 0; i < v.NumField(); i++ {
 		values[i] = v.Field(i).Interface()
 		//fmt.Printf("Field: %s\tValue: %v\n", typeOfS.Field(i).Name, v.Field(i).Interface())
-		data, _ := WriteTable(i, typeOfS.Field(i).Name, v.Field(i).Interface())
+		data, _ := WriteTableStats(i, typeOfS.Field(i).Name, v.Field(i).Interface())
 		for _, v := range data {
 			table.Append(v)
 		}
 
-	}//end for
+	} //end for
 
 	table.Render() // Send output
 
+} //end func
 
-}//end func
+//iterate a json with struct
+func SumarioGlobal(g Sum) {
+	x := g.Global
+	fmt.Println("")
+	fmt.Println("----- GLOBAL DATA -----")
+	v := reflect.ValueOf(x)
+	typeOfS := v.Type()
 
-//draw table
-func WriteTable(i int, field string, value interface{}) ([][]string, [][]string) {
-	y := strconv.Itoa(i)
-	valor := fmt.Sprintf("%v", value)
-	data := [][]string{
-		[]string{y, field, valor},
+	values := make([]interface{}, v.NumField())
+
+	table := tablewriter.NewWriter(os.Stdout)
+	table.SetHeader([]string{"#", "Field", "Value"})
+
+	for i := 0; i < v.NumField(); i++ {
+		values[i] = v.Field(i).Interface()
+		//fmt.Printf("Field: %s\tValue: %v\n", typeOfS.Field(i).Name, v.Field(i).Interface())
+		data, _ := WriteTableStats(i, typeOfS.Field(i).Name, v.Field(i).Interface())
+		for _, v := range data {
+			table.Append(v)
+		}
+
+	} //end for
+
+	table.SetRowLine(true) // Enable row line
+
+	// Change table lines
+	table.SetCenterSeparator("*")
+	table.SetColumnSeparator("|")
+	table.SetRowSeparator("-")
+
+	table.SetAlignment(tablewriter.ALIGN_LEFT)
+	table.Render() // Send output
+
+} //end func
+
+func SumarioCountries(h Sum) {
+	x := h.Countries
+	//fmt.Println(x)
+	fmt.Println("")
+	fmt.Println("----- COUNTRIES DATA -----")
+	table := tablewriter.NewWriter(os.Stdout)
+	table.SetHeader([]string{"Country", "Country Code", "Slug", "NewConfirmed", "TotalConfirmed", "NewDeaths", "TotalDeaths", "NewRecovered", "TotalRecovered"})
+	for _, element := range x {
+		data, _ := WriteTableCountries(element.Country, element.CountryCode, element.Slug, element.NewConfirmed, element.TotalConfirmed, element.NewDeaths, element.TotalDeaths, element.NewRecovered, element.TotalRecovered)
+		for _, v := range data {
+			table.Append(v)
+		}
+	}
+	table.SetRowLine(true) // Enable row line
+
+	// Change table lines
+	table.SetCenterSeparator("*")
+	table.SetColumnSeparator("|")
+	table.SetRowSeparator("-")
+
+	table.SetAlignment(tablewriter.ALIGN_LEFT)
+	table.Render() // Send output
+} //Summary func
+
+func SumarioDate(h Sum) {
+	x := h.Date
+	//fmt.Println(x)
+	fmt.Println("----- DATE TIME -----")
+
+	table := tablewriter.NewWriter(os.Stdout)
+	table.SetHeader([]string{"Date"})
+	data, _ := WriteTableDate(x)
+	for _, v := range data {
+		table.Append(v)
 	}
 
-	return data, nil
-}//end func
+	table.SetRowLine(true) // Enable row line
+
+	// Change table lines
+	table.SetCenterSeparator("*")
+	table.SetColumnSeparator("|")
+	table.SetRowSeparator("-")
+
+	table.SetAlignment(tablewriter.ALIGN_LEFT)
+	table.Render() // Send output
+
+}
