@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/schollz/progressbar/v3"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -10,13 +11,14 @@ import (
 	"time"
 )
 
-func Menu(){
+func Menu() {
 
 	var input int
 	n, err := fmt.Scanln(&input)
 
 	if n < 1 || err != nil {
 		fmt.Println("Invalid input")
+		time.Sleep(5 * time.Millisecond)
 		return
 	}
 	switch input {
@@ -28,29 +30,28 @@ func Menu(){
 		os.Exit(2)
 	}
 
-	fmt.Printf("Do you want to choose another option? Y/N")
 	fmt.Println("")
-	var volv string
-	opt, err := fmt.Scanln(&volv)
-	fmt.Println(opt)
-	if opt == 'Y' || opt == 'y' {
-		fmt.Println("")
-		fmt.Println("Regresando al menú en 5 segundos")
-		defer time.Sleep(5*time.Second)
-		fmt.Println("")
-	} else if opt == 'N' || opt == 'n' {
+	fmt.Println("**** Press 1 to continue ****")
+	fmt.Println("**** Press any button to exit ****")
+	var input2 int
+	yeah, err := fmt.Scanln(&input2)
+	if yeah < 1 || err != nil {
 		os.Exit(2)
 	} else {
-		fmt.Println("Invalid input")
-		time.Sleep(2*time.Second)
-		fmt.Println("Returning to the main menu")
-		return
+		fmt.Printf("Returning to the main menu")
+		bar := progressbar.New(100)
+		for i := 0; i < 100; i++ {
+			bar.Add(1)
+			time.Sleep(10 * time.Millisecond)
+		}
+		defer time.Sleep(5 * time.Millisecond)
+		fmt.Println("")
 	}
 
-}//Menu func
+} //Menu func
 
 func connect(op string) []byte {
-	resp, err := http.Get("https://api.covid19api.com/"+op)
+	resp, err := http.Get("https://api.covid19api.com/" + op)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -58,16 +59,15 @@ func connect(op string) []byte {
 	defer resp.Body.Close()
 	bodyBytes, _ := ioutil.ReadAll(resp.Body)
 	return bodyBytes
-}//connect func
+} //connect func
 
 func Estadisticas(opcion string) {
 	fmt.Println("1.- This route returns the usage of the API. This is not for any COVID related statistics:")
 	bodyBytes := connect(opcion)
-	// Convert response body to string
-	//bodyString := string(bodyBytes)
-	//fmt.Println("API Response as String:\n" + bodyString)
-	// Convert response body to Todo struct
 	var todoStats Stats
 	json.Unmarshal(bodyBytes, &todoStats)
-	fmt.Printf("API Response as struct %+v\n", todoStats)
-}//Estadisticas func
+
+	x := todoStats
+	Desglose(x)
+
+} //Estadisticas func
