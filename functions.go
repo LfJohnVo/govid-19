@@ -25,7 +25,7 @@ func Menu() {
 	case 1:
 		Summary("summary")
 	case 2:
-
+		Paises("countries")
 	case 20:
 		Estadisticas("stats")
 	default:
@@ -72,6 +72,17 @@ func Summary(opcion string) {
 	SumarioCountries(x)
 	SumarioGlobal(x)
 	SumarioDate(x)
+}
+
+func Paises(opcion string) {
+	fmt.Println("2.- Returns all the available countries and provinces, as well as the country slug for per country requests:")
+	bodyBytes := connect(opcion)
+	var todoCountries Countries
+	json.Unmarshal(bodyBytes, &todoCountries)
+	x := todoCountries
+	fmt.Printf("%+v\n", x)
+
+
 }
 
 func Estadisticas(opcion string) {
