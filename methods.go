@@ -61,7 +61,7 @@ func SumarioGlobal(g Sum) {
 	table.SetColumnSeparator("|")
 	table.SetRowSeparator("-")
 
-	table.SetAlignment(tablewriter.ALIGN_LEFT)
+	table.SetAlignment(tablewriter.ALIGN_CENTER)
 	table.Render() // Send output
 
 } //end func
@@ -86,7 +86,7 @@ func SumarioCountries(h Sum) {
 	table.SetColumnSeparator("|")
 	table.SetRowSeparator("-")
 
-	table.SetAlignment(tablewriter.ALIGN_LEFT)
+	table.SetAlignment(tablewriter.ALIGN_CENTER)
 	table.Render() // Send output
 } //Summary func
 
@@ -115,6 +115,30 @@ func Paisessum(Countries Countries) {
 
 }
 
+func DesgloseAll(All Alldatastruct) {
+	x := All
+	fmt.Println("")
+	fmt.Println("----- ALL WORLD DATA -----")
+	table := tablewriter.NewWriter(os.Stdout)
+	table.SetHeader([]string{"Country", "CountryCode", "Lat", "Lon", "Confirmed", "Deaths", "Recovered", "Active", "Date", "LocationID"})
+	//fmt.Printf("%v", x)
+	for _, element := range x {
+		data, _ := WriteTableAlldata(element.Country, element.CountryCode, element.Lat, element.Lon, element.Confirmed, element.Deaths, element.Recovered, element.Active, element.Date, element.LocationID)
+		for _, v := range data {
+			table.Append(v)
+		}
+	}
+	table.SetRowLine(true) // Enable row line
+
+	// Change table lines
+	table.SetCenterSeparator("*")
+	table.SetColumnSeparator("|")
+	table.SetRowSeparator("-")
+
+	table.SetAlignment(tablewriter.ALIGN_CENTER)
+	table.Render() // Send output
+}
+
 func SumarioDate(h Sum) {
 	x := h.Date
 	//fmt.Println(x)
@@ -134,7 +158,7 @@ func SumarioDate(h Sum) {
 	table.SetColumnSeparator("|")
 	table.SetRowSeparator("-")
 
-	table.SetAlignment(tablewriter.ALIGN_LEFT)
+	table.SetAlignment(tablewriter.ALIGN_CENTER)
 	table.Render() // Send output
 
 }

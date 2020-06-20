@@ -33,6 +33,19 @@ type Countries []struct {
 	ISO2    string `json:"ISO2"`
 }
 
+type Alldatastruct []struct {
+	Country     string    `json:"Country"`
+	CountryCode string    `json:"CountryCode"`
+	Lat         string    `json:"Lat"`
+	Lon         string    `json:"Lon"`
+	Confirmed   int       `json:"Confirmed"`
+	Deaths      int       `json:"Deaths"`
+	Recovered   int       `json:"Recovered"`
+	Active      int       `json:"Active"`
+	Date        time.Time `json:"Date"`
+	LocationID  string    `json:"LocationID"`
+}
+
 // struct Stats
 type Stats struct {
 	Total                             int    `json:"Total"`

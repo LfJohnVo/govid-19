@@ -3,6 +3,7 @@ module govid-19
 go 1.14
 
 require (
+	github.com/gizak/termui v3.1.0+incompatible // indirect
 	github.com/gizak/termui/v3 v3.1.0
 	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0 // indirect
 	github.com/olekukonko/tablewriter v0.0.4

@@ -26,8 +26,12 @@ func Menu() {
 		Summary("summary")
 	case 2:
 		Paises("countries")
-	case 20:
+	case 3:
+		Alldata("all")
+	case 4:
 		Estadisticas("stats")
+	case 5:
+		Version("version")
 	default:
 		os.Exit(2)
 	}
@@ -85,8 +89,18 @@ func Paises(opcion string) {
 
 }
 
+func Alldata(opcion string){
+	fmt.Println("3.- Returns all daily data. This call results in 10MB of data being returned and should be used infrequently.\n\n")
+	fmt.Println("This can take a little more of time\n\n")
+	bodyBytes := connect(opcion)
+	var todoData Alldatastruct
+	json.Unmarshal(bodyBytes, &todoData)
+	x := todoData
+	DesgloseAll(x)
+}
+
 func Estadisticas(opcion string) {
-	fmt.Println("20.- This route returns the usage of the API. This is not for any COVID related statistics:")
+	fmt.Println("4.- This route returns the usage of the API. This is not for any COVID related statistics:")
 	bodyBytes := connect(opcion)
 	var todoStats Stats
 	json.Unmarshal(bodyBytes, &todoStats)
@@ -95,3 +109,10 @@ func Estadisticas(opcion string) {
 	DesgloseStats(x)
 
 } //Estadisticas func
+
+func Version(opcion string) {
+	fmt.Println("5.- This route returns OMS Api Version:")
+	bodyBytes := connect(opcion)
+	fmt.Printf("%v", bodyBytes)
+
+} //version func
