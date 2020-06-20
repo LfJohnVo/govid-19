@@ -18,6 +18,17 @@ func WriteTableStats(i int, field string, value interface{}) ([][]string, [][]st
 }//end func
 
 //draw table
+func WriteTableCountry(country string, code string, slug string) ([][]string, [][]string) {
+	//y := strconv.Itoa(i)
+	//valor := fmt.Sprintf("%v", value)
+	data := [][]string{
+		[]string{country, code, slug},
+	}
+
+	return data, nil
+}//end func
+
+//draw table
 func WriteTableCountries(country string, code string, slug string, confirmed int, totalConfirmed int, deaths int, totalDeaths int, recovered int, totalRecovered int) ([][]string, [][]string) {
 	//y := strconv.Itoa(i)
 	//valor := fmt.Sprintf("%v", value)

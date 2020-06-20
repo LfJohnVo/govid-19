@@ -90,6 +90,31 @@ func SumarioCountries(h Sum) {
 	table.Render() // Send output
 } //Summary func
 
+func Paisessum(Countries Countries) {
+	x := Countries
+	//fmt.Println("%v\n", x)
+	fmt.Println("")
+	fmt.Println("----- COUNTRIES DATA -----")
+	table := tablewriter.NewWriter(os.Stdout)
+	table.SetHeader([]string{"Country", "Slug", "ISO2"})
+	for _, element := range x {
+		data, _ := WriteTableCountry(element.Country, element.Slug, element.ISO2)
+		for _, v := range data {
+			table.Append(v)
+		}
+	}
+	table.SetRowLine(true) // Enable row line
+
+	// Change table lines
+	table.SetCenterSeparator("*")
+	table.SetColumnSeparator("|")
+	table.SetRowSeparator("-")
+
+	table.SetAlignment(tablewriter.ALIGN_CENTER)
+	table.Render() // Send output
+
+}
+
 func SumarioDate(h Sum) {
 	x := h.Date
 	//fmt.Println(x)

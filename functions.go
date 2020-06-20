@@ -80,8 +80,8 @@ func Paises(opcion string) {
 	var todoCountries Countries
 	json.Unmarshal(bodyBytes, &todoCountries)
 	x := todoCountries
-	fmt.Printf("%+v\n", x)
-
+	//fmt.Printf("%+v\n", x)
+	Paisessum(x)
 
 }
 
