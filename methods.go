@@ -2,9 +2,12 @@ package main
 
 import (
 	"fmt"
-	"github.com/olekukonko/tablewriter"
 	"os"
 	"reflect"
+	"strconv"
+	"strings"
+
+	"github.com/olekukonko/tablewriter"
 )
 
 //iterate a json with struct
@@ -92,17 +95,64 @@ func SumarioCountries(h Sum) {
 
 func Paisessum(Countries Countries) {
 	x := Countries
+	dic := make(map[string]string)
 	//fmt.Println("%v\n", x)
 	fmt.Println("")
-	fmt.Println("----- COUNTRIES DATA -----")
+	fmt.Println("----- COUNTRIES DATA [10 OF " + strconv.Itoa(len(x)) + "] -----")
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetHeader([]string{"Country", "Slug", "ISO2"})
-	for _, element := range x {
+
+	for index, element := range x {
 		data, _ := WriteTableCountry(element.Country, element.Slug, element.ISO2)
 		for _, v := range data {
 			table.Append(v)
 		}
+		if index > 10 {
+			break
+		}
 	}
+
+	for _, e := range x {
+		dic[e.Country] = e.Slug
+	}
+
+	table.SetRowLine(true) // Enable row line
+
+	// Change table lines
+	table.SetCenterSeparator("*")
+	table.SetColumnSeparator("|")
+	table.SetRowSeparator("-")
+
+	table.SetAlignment(tablewriter.ALIGN_CENTER)
+	table.Render() // Send output
+
+	fmt.Println("Search slug country option (type some chars):")
+	var pais string
+	fmt.Scanf("%s", &pais)
+	for _, e := range dic {
+		if strings.Contains(e, strings.ToLower(pais)) {
+			fmt.Println(e)
+		}
+	}
+}
+
+func Paissum(Country Country) {
+	x := Country
+	//fmt.Println("%v\n", x)
+	fmt.Println("")
+	fmt.Println("----- COUNTRY DATA [LAST DAY] -----")
+	table := tablewriter.NewWriter(os.Stdout)
+	table.SetHeader([]string{"Confirmed", "Deaths", "Recovered", "Active", "Date"})
+
+	for index, element := range x {
+		data, _ := GenericTableCountry(element.Confirmed, element.Deaths, element.Recovered, element.Active, element.Date)
+		if index+1 == len(x) {
+			for _, v := range data {
+				table.Append(v)
+			}
+		}
+	}
+
 	table.SetRowLine(true) // Enable row line
 
 	// Change table lines
