@@ -15,7 +15,7 @@ func WriteTableStats(i int, field string, value interface{}) ([][]string, [][]st
 	}
 
 	return data, nil
-}//end func
+} //end func
 
 //draw table
 func WriteTableCountry(country string, code string, slug string) ([][]string, [][]string) {
@@ -26,9 +26,20 @@ func WriteTableCountry(country string, code string, slug string) ([][]string, []
 	}
 
 	return data, nil
-}//end func
+} //end func
 
-func WriteTableAlldata(country string, code string, lat string, lon string,Confirmed int, Death int, Recover int,Active int,Date time.Time, Location string) ([][]string, [][]string) {
+//generic table
+func GenericTableCountry(conf int, deaths int, recs int, act int, date time.Time) ([][]string, [][]string) {
+	//y := strconv.Itoa(i)
+	//valor := fmt.Sprintf("%v", value)
+	data := [][]string{
+		[]string{strconv.Itoa(conf), strconv.Itoa(deaths), strconv.Itoa(recs), strconv.Itoa(act), date.String()},
+	}
+
+	return data, nil
+} //end func
+
+func WriteTableAlldata(country string, code string, lat string, lon string, Confirmed int, Death int, Recover int, Active int, Date time.Time, Location string) ([][]string, [][]string) {
 	//y := strconv.Itoa(i)
 	//valor := fmt.Sprintf("%v", value)
 	data := [][]string{
@@ -36,7 +47,7 @@ func WriteTableAlldata(country string, code string, lat string, lon string,Confi
 	}
 
 	return data, nil
-}//end func
+} //end func
 
 //draw table
 func WriteTableCountries(country string, code string, slug string, confirmed int, totalConfirmed int, deaths int, totalDeaths int, recovered int, totalRecovered int) ([][]string, [][]string) {
@@ -47,7 +58,7 @@ func WriteTableCountries(country string, code string, slug string, confirmed int
 	}
 
 	return data, nil
-}//end func
+} //end func
 
 //draw table
 func WriteTableDate(Date time.Time) ([][]string, [][]string) {
@@ -56,4 +67,4 @@ func WriteTableDate(Date time.Time) ([][]string, [][]string) {
 	}
 
 	return data, nil
-}//end func
+} //end func

@@ -3,12 +3,13 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/schollz/progressbar/v3"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
 	"time"
+
+	"github.com/schollz/progressbar/v3"
 )
 
 func Menu() {
@@ -86,10 +87,24 @@ func Paises(opcion string) {
 	x := todoCountries
 	//fmt.Printf("%+v\n", x)
 	Paisessum(x)
+	fmt.Println("Type slug option:")
+	var slug string
+	fmt.Scanf("%s", &slug)
+	Pais("country/" + slug)
+}
+
+func Pais(opcion string) {
+	fmt.Println("2.1 - Returns all cases by case type for a country. Country must be the country_slug from /countries:")
+	bodyBytes := connect(opcion)
+	var todoCountry Country
+	json.Unmarshal(bodyBytes, &todoCountry)
+	x := todoCountry
+	//fmt.Printf("%+v\n", x)
+	Paissum(x)
 
 }
 
-func Alldata(opcion string){
+func Alldata(opcion string) {
 	fmt.Println("3.- Returns all daily data. This call results in 10MB of data being returned and should be used infrequently.\n\n")
 	fmt.Println("This can take a little more of time\n\n")
 	bodyBytes := connect(opcion)
